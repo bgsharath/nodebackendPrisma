@@ -5,7 +5,7 @@ export const UserController = {
   view: async (req: Request, res: Response) => {
     try {
       const user = req.user
-      res.status(201).json({
+      res.status(200).json({
         message: "User fetched successfully",
         data: user,
         success: true,

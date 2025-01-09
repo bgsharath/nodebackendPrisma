@@ -6,7 +6,7 @@ export const AuthController = {
     try {
       const user = await AuthService.signup(req.body);
       res.status(201).json({
-        message: "User created successfully",
+        message: res.__("user_created_success"),
         data: user,
         success: true,
       });
@@ -24,7 +24,7 @@ export const AuthController = {
         maxAge: 3600000, // 1 hour
       });
       res.status(200).json({
-        message: "Login successful",
+        message: res.__("login_success"),
         data: user,
         success: true,
       });
