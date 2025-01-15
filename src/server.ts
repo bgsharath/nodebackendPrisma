@@ -2,12 +2,13 @@
 import { PrismaClient } from '@prisma/client';
 import app from './app';
 import { config } from './config';
+import logger from './config/logger';
 
 const prisma = new PrismaClient();
 
 prisma.$connect().then(() => {
-  console.log('Prisma connected successfully');
+  logger.info('Prisma connected successfully');
   app.listen(config.port, () => {
-    console.log(`Server running on http://localhost:${config.port}`);
+    logger.info(`Server running on http://localhost:${config.port}`);
   });
 });

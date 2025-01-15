@@ -179,3 +179,143 @@ sudo systemctl restart nginx
 ---
 
 Now, your Node.js application should be accessible via Nginx acting as a reverse proxy, and PostgreSQL should be set up and ready for use!
+
+
+# ELK Implementation Steps
+
+## ELK on macOS
+
+1. **Download & Install Elasticsearch**: [https://www.elastic.co/downloads/elasticsearch](https://www.elastic.co/downloads/elasticsearch)
+2. **Start Elasticsearch**: `./bin/elasticsearch`
+3. **Test if Elasticsearch is running**: `curl -X GET "http://localhost:9200"`
+
+4. **Install Kibana**: [https://www.elastic.co/downloads/kibana](https://www.elastic.co/downloads/kibana)
+5. **Configure kibana.yml file**: 
+   - `elasticsearch.hosts: ["http://localhost:9200"]`
+6. **Start Kibana**: `./bin/kibana`
+7. **Access Kibana via**: [http://localhost:5601](http://localhost:5601)
+
+8. **Install Logstash**: [https://www.elastic.co/downloads/logstash](https://www.elastic.co/downloads/logstash)
+9. **Create a configuration file**: `logstash.conf`
+    ```
+    input {
+      http {
+        port => 8080
+      }
+    }
+
+    output {
+      elasticsearch {
+        hosts => ["http://localhost:9200"]
+        index => "app-logs-%{+YYYY.MM.dd}"
+      }
+    }
+    ```
+10. **Run Logstash**: `./bin/logstash -f /yourpath/logstash.conf`
+
+## ELK on Windows
+
+### Install Elasticsearch on Windows
+1. **Download Elasticsearch**: [https://www.elastic.co/downloads/elasticsearch](https://www.elastic.co/downloads/elasticsearch)  
+   Download the ZIP file.
+2. **Extract Elasticsearch**:  
+   Extract the contents to a directory of your choice, such as `C:\elasticsearch`.
+3. **Configure Elasticsearch**:  
+   Navigate to the `config` directory inside the extracted Elasticsearch folder (`C:\elasticsearch\config`).  
+   Open the `elasticsearch.yml` file with a text editor (e.g., Notepad or VS Code).
+
+   Key settings to configure:
+    ```
+    cluster.name: my-elasticsearch-cluster
+    node.name: my-node
+    network.host: localhost
+    http.port: 9200
+    ```
+
+4. **Start Elasticsearch**:  
+   Open a command prompt and navigate to the `bin` directory:
+   ```bash
+   cd C:\elasticsearch\bin
+   elasticsearch.bat
+   ```
+
+### Install Kibana
+1. **Download Kibana**: [https://www.elastic.co/downloads/kibana](https://www.elastic.co/downloads/kibana)  
+   Extract the ZIP file.  
+   Configure Kibana:  
+   Open `config/kibana.yml` in the Kibana folder. Set `elasticsearch.hosts` to `http://localhost:9200`.
+2. **Start Kibana**:  
+   Open a command prompt in the Kibana folder and run:
+   ```bash
+   bin\kibana.bat
+   ```
+
+### Install Logstash
+1. **Download Logstash**: [https://www.elastic.co/downloads/logstash](https://www.elastic.co/downloads/logstash)  
+   Extract the ZIP file.
+2. **Configure Logstash**:  
+   Create a configuration file (e.g., `logstash.conf`) with this content:
+    ```
+    input {
+      http {
+        port => 8080
+      }
+    }
+
+    output {
+      elasticsearch {
+        hosts => ["http://localhost:9200"]
+        index => "app-logs-%{+YYYY.MM.dd}"
+      }
+    }
+    ```
+3. **Start Logstash**:  
+   Open a command prompt in the Logstash folder and run:
+   ```bash
+   bin\logstash -f logstash.conf
+   ```
+
+## Node.js Code
+
+1. **Install Node.js dependencies**:  
+   ```bash
+   npm install @elastic/elasticsearch winston winston-elasticsearch express body-parser
+   ```
+
+2. **Create `logger.ts`**:
+    ```javascript
+    const { createLogger, format, transports } = require('winston');
+
+    const logstashTransport = new transports.Http({
+      host: 'localhost',
+      port: 8080,
+      path: '/',
+    });
+
+    const logger = createLogger({
+      level: 'info',
+      format: format.combine(
+        format.timestamp(),
+        format.json()
+      ),
+      transports: [
+        logstashTransport,
+        new transports.Console(), // Optional console log
+      ],
+    });
+
+    module.exports = { logger };
+    ```
+
+3. **Create `app.ts`**:  
+   Add `logger.info("Hello World");`
+
+4. **Run Node.js app**:  
+   ```bash
+   npm run dev
+   ```
+
+5. **Check Kibana for logs**:  
+   Access Kibana at [http://localhost:5601/app/management/data/index_management/indices](http://localhost:5601/app/management/data/index_management/indices).  
+   You can see the logs in the index `app-logs-2022.03.02`. Click on **Discover** to view the logs.
+
