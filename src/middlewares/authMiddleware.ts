@@ -5,7 +5,7 @@ import { UserRepository } from "../repositories/user.repository";
 
 declare module "express-serve-static-core" {
   interface Request {
-    user?: any;
+    user?: unknown;
   }
 }
 

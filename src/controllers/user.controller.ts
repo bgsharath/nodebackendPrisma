@@ -10,7 +10,7 @@ export const UserController = {
         data: user,
         success: true,
       });
-    } catch (err:any) {
+    } catch (err:unknown) {
       res.status(400).json({ message: err.message, success: false });
     }
   },
@@ -25,7 +25,7 @@ export const UserController = {
         data: loggedInUser,
         success: true,
       });
-    } catch (err: any) {
+    } catch (err: unknown) {
       res.status(400).json({ message: err.message, success: false });
     }
   }

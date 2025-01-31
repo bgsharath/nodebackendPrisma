@@ -2,11 +2,11 @@ import client from '../config/elasticClient';
 import { Document } from '../models';
 
 export class ElasticService {
-  async createIndex(index: string): Promise<any> {
+  async createIndex(index: string): Promise<unknown> {
     return client.indices.create({ index });
   }
 
-  async addDocument(index: string, document: Document): Promise<any> {
+  async addDocument(index: string, document: Document): Promise<unknown> {
     return client.index({
       index,
       id: document.id,
@@ -14,7 +14,7 @@ export class ElasticService {
     });
   }
 
-  async search(index: string, query: object): Promise<any> {
+  async search(index: string, query: object): Promise<unknown> {
     return client.search({
       index,
       body: {
@@ -23,7 +23,7 @@ export class ElasticService {
     });
   }
 
-  async deleteIndex(index: string): Promise<any> {
+  async deleteIndex(index: string): Promise<unknown> {
     return client.indices.delete({ index });
   }
 }

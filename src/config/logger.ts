@@ -53,11 +53,7 @@
 // .......................
 
 // .......................................................................
-
-import axios from 'axios';
-const { createLogger, format, transports } = require('winston');
-
-const logstashURL = 'http://localhost:8080';
+import { createLogger, format, transports } from 'winston';
 
 const logstashTransport = new transports.Http({
   host: 'localhost',

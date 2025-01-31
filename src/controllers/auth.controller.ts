@@ -12,7 +12,7 @@ export const AuthController = {
         data: user,
         success: true,
       });
-    } catch (err:any) {
+    } catch (err:unknown) {
       next(err)
     }
   },
@@ -31,7 +31,7 @@ export const AuthController = {
         data: user,
         success: true,
       });
-    } catch (err: any) {
+    } catch (err: unknown) {
       next(err)
     }
   },
@@ -43,7 +43,7 @@ export const AuthController = {
       });
       logger.info("User logout successfully")
       res.status(200).json({ message: "Logout successful", success: true });
-    } catch (err:any) {
+    } catch (err:unknown) {
       next(err)
     }
   }
