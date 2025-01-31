@@ -10,7 +10,8 @@ export const UserController = {
         data: user,
         success: true,
       });
-    } catch (err:unknown) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err:any) {
       res.status(400).json({ message: err.message, success: false });
     }
   },
@@ -25,7 +26,8 @@ export const UserController = {
         data: loggedInUser,
         success: true,
       });
-    } catch (err: unknown) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
       res.status(400).json({ message: err.message, success: false });
     }
   }

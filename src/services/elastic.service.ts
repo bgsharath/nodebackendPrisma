@@ -1,12 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import client from '../config/elasticClient';
 import { Document } from '../models';
 
 export class ElasticService {
-  async createIndex(index: string): Promise<unknown> {
+  async createIndex(index: string): Promise<any> {
     return client.indices.create({ index });
   }
 
-  async addDocument(index: string, document: Document): Promise<unknown> {
+  async addDocument(index: string, document: Document): Promise<any> {
     return client.index({
       index,
       id: document.id,
@@ -14,7 +15,7 @@ export class ElasticService {
     });
   }
 
-  async search(index: string, query: object): Promise<unknown> {
+  async search(index: string, query: object): Promise<any> {
     return client.search({
       index,
       body: {
@@ -23,7 +24,7 @@ export class ElasticService {
     });
   }
 
-  async deleteIndex(index: string): Promise<unknown> {
+  async deleteIndex(index: string): Promise<any> {
     return client.indices.delete({ index });
   }
 }

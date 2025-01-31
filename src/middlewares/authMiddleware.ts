@@ -5,7 +5,8 @@ import { UserRepository } from "../repositories/user.repository";
 
 declare module "express-serve-static-core" {
   interface Request {
-    user?: unknown;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    user?: any;
   }
 }
 

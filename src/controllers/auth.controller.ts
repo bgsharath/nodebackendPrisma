@@ -12,7 +12,8 @@ export const AuthController = {
         data: user,
         success: true,
       });
-    } catch (err:unknown) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err:any) {
       next(err)
     }
   },
@@ -31,7 +32,8 @@ export const AuthController = {
         data: user,
         success: true,
       });
-    } catch (err: unknown) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
       next(err)
     }
   },
@@ -43,7 +45,8 @@ export const AuthController = {
       });
       logger.info("User logout successfully")
       res.status(200).json({ message: "Logout successful", success: true });
-    } catch (err:unknown) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err:any) { 
       next(err)
     }
   }
