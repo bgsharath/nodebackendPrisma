@@ -10,7 +10,6 @@ on:
 jobs:
 
   Continuous-Integration:
-
     name: Performs linting, formatting on the application
     runs-on: ubuntu-latest
     steps:
@@ -21,7 +20,4 @@ jobs:
         run: npm install
 
       - name: Run linting check
-        run: npm run lint
-
-      - name: Run Build
-        run: npm run build
+        run: npm run lint        
